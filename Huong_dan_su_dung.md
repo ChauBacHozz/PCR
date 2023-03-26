@@ -61,11 +61,31 @@ from sklearn.decomposition import PCA
 - Kiểm tra dữ liệu trống: Kiểm tra file dữ liệu có ô nào bị bỏ trống không bằng lệnh print(data.isnull().values.any()) sau đó run all, nếu ở dưới hiện lên là False tức là không có ô nào trong bảng dữ liệu bị trống, còn nếu hiện lên là True thì cần rà soát kiểm tra lại file dữ liệu, nếu không khi luyện mạng sẽ gây lỗi
 - Chia dữ liệu thành các cột x và Y: Ở đây bài toán chính là sử dụng mô hình máy học để sự đoán nồng độ các chất trong hỗn hợp sản phẩm (thuốc) vậy nên mình sẽ coi dữ liệu đầu vào (X) là tín hiệu Abs, còn dữ liệu đích (Y) chính là nồng độ các chất. Để tách thành các cột X và Y trong trường hợp dữ liệu trên ta sử dụng lệnh:
 ```
-X = data[:, 4:]
-y = data[:, 1:4]
+X = data.iloc[:, 4:]
+y = data.iloc[:, 1:4]
 ```
 *Do các cột nồng độ từ cột thứ 1 đến cột thứ 3, các cột Abs là từ cột thứ 3 trở đi, python đánh số bắt đầu từ 0, cho nên cột đầu tiên(STT) chính là cột thứ 0*
+Chia tập dữ liệu thành tập dữ liệu luyện (train) và tập dữ liệu kiểm tra (test), sử dụng câu lệnh sau:
+```
+# Nếu trước đó không chuẩn hóa hoặc chính quy hóa dữ liệu
+X_train, X_test, y_train, y_test = train_test_split(data.iloc[:,3:], data.iloc[:,0:3],test_size=0.2, random_state=42)
+# Nếu trước đó đã chuẩn hóa hoặc chính quy hóa dữ liệu
+X_train, X_test, y_train, y_test = train_test_split(data[:,3:], data[:,0:3],test_size=0.2, random_state=42)
+```
++ X_train: các cột Abs của tập dữ liệu train
++ y_train: các cột nồng độ của tập dữ liệu train
++ X_test: các cột Abs của tập dữ liệu test
++ y_test: các cột nồng độ của tập dữ liệu test
 - Co giãn dữ liệu: với bảng dữ liệu nồng độ - tín hiệu của phổ UV-VIS thì dữ liệu khá đơn giản nên không cần tới quá nhiều kĩ thuật tiền xủ lý dữ liệu, tuy nhiên nếu giá trị giữa các cột nồng độ - Abs cách nhau quá lớn (>10 lần), có thể co dữ liệu về các giá trị nằm trong khoảng 0 - 1 để khiến cho tốc độ luyện mạng nhanh hơn
+- Chính quy hóa dữ liệu: với dữ liệu dạng nhiều chiều (nhiều cột) thì việc chính quy hóa giúp cho giá trị của mỗi đặc trưng có trung bình bằng 0 và phương sai bằng 1. Từ đó giúp model dễ dàng tiến được tới giá trị min của hàm loss, đồng thời khiến cho tốc độ học máy tăng lên. thư viện scikit-learn cung cấp một hàm giúp chúng ta có thể vừa chuẩn hóa và vừa chính quy hóa dữ liệu cùng một lúc bằng lệnh sau:
+```
+X_train_scaled, X_test_scaled = scale(X_train), scale(X_test)
+```
+*Nên ưu tiên chuẩn hóa với tín hiệu đầu vào (X)*
+![image](https://user-images.githubusercontent.com/90232557/227754831-5f978627-303c-4a92-8893-4f0712ac0068.png)
+ #### Lưu ý: Các kỹ thuật tiền xử lý dữ liệu như chuẩn hóa, co giãn, chính quy hóa dữ liệu được sử dụng tùy trong từng trường hợp cụ thể. Với những dữ liệu đặc trưng sẽ phải thử để chọn ra những kỹ thuật sao cho việc học máy được diễn ra một cách tối ưu nhất. #### Lưu ý: Các kỹ thuật tiền xử lý dữ liệu như chuẩn hóa, co giãn, chính quy hóa dữ liệu được sử dụng tùy trong từng trường hợp cụ thể. Với những dữ liệu đặc trưng sẽ phải thử để chọn ra những kỹ thuật sao cho việc học máy được diễn ra một cách tối ưu nhất.
+
+### Bước 3: sử dụng phương pháp PCR để phân tích các cấu tử chính
 
 
 
