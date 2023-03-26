@@ -86,6 +86,73 @@ X_train_scaled, X_test_scaled = scale(X_train), scale(X_test)
  #### Lưu ý: Các kỹ thuật tiền xử lý dữ liệu như chuẩn hóa, co giãn, chính quy hóa dữ liệu được sử dụng tùy trong từng trường hợp cụ thể. Với những dữ liệu đặc trưng sẽ phải thử để chọn ra những kỹ thuật sao cho việc học máy được diễn ra một cách tối ưu nhất. #### Lưu ý: Các kỹ thuật tiền xử lý dữ liệu như chuẩn hóa, co giãn, chính quy hóa dữ liệu được sử dụng tùy trong từng trường hợp cụ thể. Với những dữ liệu đặc trưng sẽ phải thử để chọn ra những kỹ thuật sao cho việc học máy được diễn ra một cách tối ưu nhất.
 
 ### Bước 3: Sử dụng phương pháp PCR để phân tích các cấu tử chính
+##### Khảo sát, đánh giá và chọn số cấu tử chính tối ưu để thực hiện hồi quy
+- Sử dụng phương thức fit_transform trong class PCA() của thư viện scikit-learn để chuyển tập dữ liệu train bằng câu lệnh sau:
+```
+lin_reg = LinearRegression()
+rmse_list = []
+pca = PCA()
+X_train_pc = pca.fit_transform(X_train_scaled)
+print(X_train_pc.shape)
+```
+Dòng lệnh cuối sẽ in ra dạng của ma trận X_train sau khi đã phân tích có dạng(a,b), trong đó a là số dòng và b là số cột, ở đây chúng ta sẽ chú ý b vì b chính là số chiều cần phân tích
+- Dùng Kfold để chia tập dữ liệu thành các tập dữ liệu con để đnhs giá chéo bằng câu lệnh:
+```
+cv = KFold(n_splits=7, shuffle=True, random_state=42)
+```
+- Tính giá trị RMSE (Root mean square error) trên từng trường hợp pc (từ 1 đến 7, tương ứng với sô cột Abs):
+```
+for i in range(1, X_train_pc.shape[1]+1):
+    rmse_score = -1 * cross_val_score(lin_reg, 
+                                      X_train_pc[:,:i], # Use first k principal components
+                                      y_train, 
+                                      cv=cv, 
+                                      scoring='neg_mean_squared_error').mean()
+    rmse_list.append(rmse_score)
+```
+- Biểu diễn tổng quan giá trị RMSE theo từng pc
+```
+plt.plot(rmse_list, '-o')
+plt.xlabel('Number of principal components in regression')
+plt.ylabel('Cross-Validation RMSE')
+plt.title('PCR')
+plt.xlim(xmin=-1);
+plt.xticks(np.arange(X_train_pc.shape[1]), np.arange(1, X_train_pc.shape[1]+1))
+```
+- Sau khi chạy lệnh, sẽ hiện lên một biểu đồ hiển thị giá trị của RMSE theo từng pc, từ đó ta có thể chọn sô pc tối ưu nhất
+![image](https://user-images.githubusercontent.com/90232557/227783449-37d5c835-3b4c-444b-a698-02f34d7c9be2.png)
+  *Như trong trường hợp trên, số pc tối ưu là 4*
+- Sau khi chọn được số pc tối ưu, lưu số pc ta chọn vào một biến gọi là best_pc_num:
+```
+best_pc_num = 4
+```
+- Rồi sử dụng model Linear Regression của thư viện scikit-learn để xử lý hồi quy đa biến (trên tập dữ liệu train) với số pc đã chọn ():
+```
+lin_reg_pc = LinearRegression().fit(X_train_pc[:,:best_pc_num], y_train)
+```
+- Ta có thể in ra hệ số R2 sau khi xử lý hồi quy đa biến với lệnh:
+```
+print(lin_reg_pc.score(X_train_pc[:,:best_pc_num], y_train))
+```
+![image](https://user-images.githubusercontent.com/90232557/227787590-c822c9ca-e6c8-4ed1-9ee1-a89f1bce59ed.png)
+
+##### Tính các giá trị theo tập test và so sánh với dữ liệu thực
+- Sử dụng PCA để chuyển hóa tập dữ liệu test theo số pc đã chọn:
+```
+X_test_pc = pca.transform(X_test_scaled)[:,:best_pc_num]
+```
+- Sử dụng hàm predict để tính toán theo X_test_pc, sau đó in ra MSE (Mean Square Error) của giá trị tính và giá trị thực:
+```
+preds = lin_reg_pc.predict(X_test_pc)
+pcr_score_test = mean_squared_error(y_test, preds, squared=False)
+print(pcr_score_test)
+```
+
+
+
+
+
+
 
 
 
