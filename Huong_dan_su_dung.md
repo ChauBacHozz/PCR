@@ -33,7 +33,7 @@ Trong phần thanh công cụ ta chỉ cần chú ý tới 2 nút: Code và Run 
   + Code: tạo thêm một khối lệnh mới
   + Run All: chạy tất cả các khối lệnh từ trên xuống
  Phần khối lệnh là nơi ta sẽ để code python vào bên trong đó, ở bên trái khối lệnh ta sẽ thấy hiện thị biểu tượng tam giác, khi nhấn vào sẽ chạy khối lệnh hiện tại. Nếu muốn chạy tất cả các khối lệnh, hãy ấn Run All ở trên thanh công cụ
-
+#### Có thể tham khảo code ở link: https://github.com/ChauBacHozz/PCR/blob/main/PCR.ipynb
 ### Bước 1: Import thư viện vào file code
 ```
 import numpy as np
@@ -47,6 +47,26 @@ from sklearn.metrics import mean_squared_error
 from sklearn.decomposition import PCA
 ```
 - Từ **as** có nghĩa là ta định nghĩa tên gọi tắt cho thư viện, nhằm giúp cho việc code không bị dài dòng và thuận tiện cho việc gọi các hàm từ thư viện
+### Bước 2: Sử dụng python để đọc file dữ liệu và tiến hành tiền xử lý dữ liệu
+##### Đọc file dữ liệu
+- Bấm vào nút "+ Code" để tạo code cell mới
+- Copy file dữ liệu (dạng csv, xlsx, txt, ...) vào cùng thư mục với file python
+![image](https://user-images.githubusercontent.com/90232557/227753581-cfc248f2-6b1e-46f8-9371-7e3a588ad81f.png)
+- Sau đó trong file .ipynb, tạo một biến đặt tên là data (data sẽ lưu trữ thông tin của file dữ liệu) và đọc bảng dữ liệu bằng lệnh pd.read_excel({Tên file})
+- Xuống dòng gõ lệnh print(data) rồi chuột phải, chọn "Run All" để kiểm tra python đã đọc được dữ liệu hay chưa
+![image](https://user-images.githubusercontent.com/90232557/227753704-6ac487c2-bdf6-471f-8dd5-abc5ebade51b.png)
+ *Nếu dữ liệu được đọc thành công, sau khi run code bảng dữ liệu sẽ hiển thị ở phía dưới như hình*
+
+##### Tiền xử lý dữ liệu
+- Kiểm tra dữ liệu trống: Kiểm tra file dữ liệu có ô nào bị bỏ trống không bằng lệnh print(data.isnull().values.any()) sau đó run all, nếu ở dưới hiện lên là False tức là không có ô nào trong bảng dữ liệu bị trống, còn nếu hiện lên là True thì cần rà soát kiểm tra lại file dữ liệu, nếu không khi luyện mạng sẽ gây lỗi
+- Chia dữ liệu thành các cột x và Y: Ở đây bài toán chính là sử dụng mô hình máy học để sự đoán nồng độ các chất trong hỗn hợp sản phẩm (thuốc) vậy nên mình sẽ coi dữ liệu đầu vào (X) là tín hiệu Abs, còn dữ liệu đích (Y) chính là nồng độ các chất. Để tách thành các cột X và Y trong trường hợp dữ liệu trên ta sử dụng lệnh:
+```
+X = data[:, 4:]
+y = data[:, 1:4]
+```
+*Do các cột nồng độ từ cột thứ 1 đến cột thứ 3, các cột Abs là từ cột thứ 3 trở đi, python đánh số bắt đầu từ 0, cho nên cột đầu tiên(STT) chính là cột thứ 0*
+- Co giãn dữ liệu: với bảng dữ liệu nồng độ - tín hiệu của phổ UV-VIS thì dữ liệu khá đơn giản nên không cần tới quá nhiều kĩ thuật tiền xủ lý dữ liệu, tuy nhiên nếu giá trị giữa các cột nồng độ - Abs cách nhau quá lớn (>10 lần), có thể co dữ liệu về các giá trị nằm trong khoảng 0 - 1 để khiến cho tốc độ luyện mạng nhanh hơn
+
 
 
 
