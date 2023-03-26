@@ -14,9 +14,9 @@ Chú ý: Tích vào 2 ô Install launcher for all users và Add Python to PATH, 
 ## Tạo file thực thi và cài đặt các thư viện cần thiết
 - Bước 1: Ấn Ctrl + Shift + E để mở phần Explorer của VS Code, tạo file ipynb để chạy code bằng cách gõ {Tên file}.ipynb, ví dụ: main.ipynb sau đó ấn Enter (Tất cả code python sẽ nằm trong file này)
 - Bước 2: Ấn Ctrl + Shift + ` để mở cửa sổ terminal, hoặc vào phần Terminal ở thành toolbar của VS Code -> chọn New Terminal
-![image](https://user-images.githubusercontent.com/90232557/226869390-0af1db5d-06d1-46ae-a5a1-d8d0f3ddbecc.png)
 - Bước 3: Gõ lệnh "pip install numpy, pandas, matplotlib, scikit-learn, openpyxl" vào cửa sổ terminal rồi ấn Enter, chờ quá trình cài đặt cho đến khi có thông báo "Successfully installed" hiện lên là coi như đã cài đặt thành công.
-*Lưu ý: ipynb là đuổi của file dạng jupyter notebook, sủ dụng nhân python để chạy lệnh, nên khi code sẽ giống như code python, tuy nhiên jupyter notebook có khả năng chạy từng khối lệnh (cell) riêng biệt, cho nên được dùng rất phổ biến khi code học máy và phân tích dữ liệu*
+
+*Lưu ý: ipynb là đuôi của file dạng jupyter notebook, sủ dụng nhân python để chạy lệnh, nên khi code sẽ giống như code python, tuy nhiên jupyter notebook có khả năng chạy từng khối lệnh (cell) riêng biệt, cho nên được dùng rất phổ biến khi code học máy và phân tích dữ liệu*
 
 ## Code PCR bằng python
 ### Giới thiệu các thư viện: numpy, matplotlib, pandas
@@ -85,7 +85,7 @@ X_train_scaled, X_test_scaled = scale(X_train), scale(X_test)
 ![image](https://user-images.githubusercontent.com/90232557/227754831-5f978627-303c-4a92-8893-4f0712ac0068.png)
  #### Lưu ý: Các kỹ thuật tiền xử lý dữ liệu như chuẩn hóa, co giãn, chính quy hóa dữ liệu được sử dụng tùy trong từng trường hợp cụ thể. Với những dữ liệu đặc trưng sẽ phải thử để chọn ra những kỹ thuật sao cho việc học máy được diễn ra một cách tối ưu nhất. #### Lưu ý: Các kỹ thuật tiền xử lý dữ liệu như chuẩn hóa, co giãn, chính quy hóa dữ liệu được sử dụng tùy trong từng trường hợp cụ thể. Với những dữ liệu đặc trưng sẽ phải thử để chọn ra những kỹ thuật sao cho việc học máy được diễn ra một cách tối ưu nhất.
 
-### Bước 3: sử dụng phương pháp PCR để phân tích các cấu tử chính
+### Bước 3: Sử dụng phương pháp PCR để phân tích các cấu tử chính
 
 
 
