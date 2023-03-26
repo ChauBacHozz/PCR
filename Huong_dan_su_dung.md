@@ -24,6 +24,16 @@ Chú ý: Tích vào 2 ô Install launcher for all users và Add Python to PATH, 
 - matplotlib: thư viện hiển thị dữ liệu (giống như Chart của excel)
 - pandas: thư viện dùng để đọc dataset từ các file dạng csv, xlsx, text,...
 - scikit-learn: thư viện học máy dùng cho đa mục đích
+### Cách thao tác với file jupyter notebook trên VS Code
+- Khi mới tạo ra file .ipynb, chúng ta thấy giao diện sẽ trông như sau
+![image](https://user-images.githubusercontent.com/90232557/227752292-b543d502-d3b3-4c61-b241-c8ffa16779ec.png)
+File sẽ có 2 thành phần chính, phần thanh công cụ (phía trên_xanh lá) và phần code cell (ô hình chữ nhật_đỏ)
+![image](https://user-images.githubusercontent.com/90232557/227752330-e7fa16d2-9cea-4e89-8cb9-a4612e26ee95.png)
+Trong phần thanh công cụ ta chỉ cần chú ý tới 2 nút: Code và Run All
+  + Code: tạo thêm một khối lệnh mới
+  + Run All: chạy tất cả các khối lệnh từ trên xuống
+ Phần khối lệnh là nơi ta sẽ để code python vào bên trong đó, ở bên trái khối lệnh ta sẽ thấy hiện thị biểu tượng tam giác, khi nhấn vào sẽ chạy khối lệnh hiện tại. Nếu muốn chạy tất cả các khối lệnh, hãy ấn Run All ở trên thanh công cụ
+
 ### Bước 1: Import thư viện vào file code
 ```
 import numpy as np
@@ -36,6 +46,7 @@ from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.decomposition import PCA
 ```
+- Từ **as** có nghĩa là ta định nghĩa tên gọi tắt cho thư viện, nhằm giúp cho việc code không bị dài dòng và thuận tiện cho việc gọi các hàm từ thư viện
 
 
 
